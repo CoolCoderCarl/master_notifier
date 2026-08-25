@@ -1,8 +1,8 @@
 # master_notifier
 
 ## PLAN
-- [ ] Postgres
-- [ ] Writer
+- [x] Postgres
+- [x] Writer
 - [ ] RabbitMQ
 - [ ] Processing
 - [ ] Notifier & Clients
