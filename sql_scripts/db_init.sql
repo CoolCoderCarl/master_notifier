@@ -2,6 +2,7 @@ CREATE DATABASE test_notifier;
 
 GRANT ALL PRIVILEGES ON DATABASE test_notifier TO dev;
 GRANT ALL PRIVILEGES ON TABLE notifications TO dev;
+GRANT ALL PRIVILEGES ON SEQUENCE notifications_id_seq TO dev;
 
 CREATE TABLE notifications (
     id          BIGSERIAL PRIMARY KEY,
