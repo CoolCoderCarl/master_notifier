@@ -9,6 +9,14 @@
 
 
 ## System Description 
+For notification I am going to use **push model**.  Notifications methods are two - email and telegram messages.  
+Maybe other like whatsapp or SMS. 
+
+The flow is a Client set message, time and channel to recieve a notification, all this stuff will validate and registred in Database, and then send to Client in a proper time.
+
+Also there is necesarry to clear database after if notification is not set to repeated.
+
+There are some blocks of a system:  
 - Data
 - Processing
 - RabbitMQ
