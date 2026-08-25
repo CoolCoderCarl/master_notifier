@@ -88,15 +88,16 @@ Contains 3 queues:
 ### PostgreSQL
 Contains datas for clients to notify
 
-| Field | Description |
-|-------|-------------|
-| `client_id` | Client ID |
-| `client_name` | Real name or nickname |
-| `n_method` | Notification method: Telegram or Email |
-| `n_text` | Text of the notification message |
-| `n_time` | Time when the notification should be sent |
-| `prioriy` | Priority of a notifications |
-| `is_repeat` | Whether the notification should be repeated |
+| Field         | Description                                  |
+|---------------|----------------------------------------------|
+| `id`          | Entity ID                                    |
+| `client_name` | Real name or nickname                        |
+| `n_method`    | Notification method: Telegram or Email       |
+| `n_text`      | Text of the notification message             |
+| `n_time`      | Time when the notification should be sent    |
+| `r_time`      | Time when the notification has been received |
+| `prioriy`     | Priority of a notifications                  |
+| `is_repeat`   | Whether the notification should be repeated  |
 
 
 ```mermaid
