@@ -3,7 +3,7 @@
 ## PLAN
 - [x] Postgres
 - [x] Writer
-- [ ] RabbitMQ
+- [x] RabbitMQ
 - [ ] Processing
 - [ ] Notifier & Clients
 
