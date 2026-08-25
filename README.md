@@ -35,6 +35,7 @@ When a particular message has been sent, need to register it like send, maybe in
 
 All the notification has a priority, not all of them a important. So, one of them has to be send faster and other later. Some notification can be send in email, some with a messangers like tg or whatsapp.  
 For example:
+
 | Priority | Example | Default |
 |-------------|-------------|-------------|
 | `critical` | Security alerts | **Messangers** | 
@@ -86,6 +87,7 @@ Contains 3 queues:
 
 ### PostgreSQL
 Contains datas for clients to notify
+
 | Field | Description |
 |-------|-------------|
 | `client_id` | Client ID |
