@@ -63,6 +63,7 @@ For now it will some kind of table but maybe it is good idea configure it with a
 
 
 ### Proccessing 
+A Web Application which get data from user  
 Parse and validate JSON file then put it in queue named **QID** (queue input data).
 Use Flask like a web server
 **Output:** JSON
