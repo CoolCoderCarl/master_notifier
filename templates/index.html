@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Notification Queue</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-bottom: 25px;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        textarea {
+            height: 100px;
+            resize: vertical;
+        }
+
+        .buttons {
+            margin-top: 25px;
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .submit {
+            background: #007bff;
+            color: white;
+        }
+
+        .clear {
+            background: #dc3545;
+            color: white;
+        }
+
+        .result {
+            margin-top: 30px;
+            padding: 15px;
+            background: #f1f3f5;
+            border-radius: 6px;
+        }
+
+        pre {
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Notification Queue</h1>
+
+    <form method="POST">
+
+        <label for="client_name">Client Name</label>
+        <input
+            type="text"
+            id="client_name"
+            name="client_name"
+            placeholder="Test"
+            required
+        >
+
+        <label for="n_method">Notification Method</label>
+        <select id="n_method" name="n_method">
+            <option value="Telegram">Telegram</option>
+            <option value="Mail">Mail</option>
+        </select>
+
+        <label for="n_text">Notification Text</label>
+        <textarea
+            id="n_text"
+            name="n_text"
+            placeholder="Hello!"
+            required
+        ></textarea>
+
+        <label for="n_time">Notification Time</label>
+        <input
+            type="datetime-local"
+            id="n_time"
+            name="n_time"
+            required
+        >
+
+        <label for="priority">Priority</label>
+        <select id="priority" name="priority">
+            <option value="1">Low</option>
+            <option value="2">Medium</option>
+            <option value="3">High</option>
+            <option value="4">Critical</option>
+        </select>
+
+
+        <label for="is_repeat">Repeat Notification</label>
+        <select id="is_repeat" name="is_repeat">
+            <option value="false">No</option>
+            <option value="true">Yes</option>
+        </select>
+
+        <div class="buttons">
+            <button type="submit" class="submit">
+                Submit
+            </button>
+
+            <button type="reset" class="clear">
+                Clear
+            </button>
+        </div>
+
+    </form>
+
+
+    {% if data %}
+
+    <div class="result">
+        <h2>Result</h2>
+
+        <pre>{{ data }}</pre>
+    </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

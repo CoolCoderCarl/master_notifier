@@ -4,8 +4,9 @@
 - [x] Postgres
 - [x] Writer
 - [x] RabbitMQ
-- [ ] Processing
-- [ ] Notifier & Clients
+- [x] Processing
+- [ ] Notifier
+- [ ] Clients
 
 
 ## System Description 

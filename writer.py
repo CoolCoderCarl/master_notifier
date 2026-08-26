@@ -103,15 +103,3 @@ rabbitmq_channel.basic_consume(
 
 logging.info("Waiting for messages in QID...")
 rabbitmq_channel.start_consuming()
-
-
-
-
-
-
-
-
-
-
-
-
