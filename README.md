@@ -16,7 +16,10 @@ Functional requirements answer the questions:
 - "What does the system do?"
 - "Why does the system do this?"
 
-The flow is a Client set message, time and channel to recieve a notification, all this stuff will validate and registred in Database, and then send to Client in a proper time.
+- Notify a users according configuration they have been set
+- A frontend with a configuration for notification configuration
+
+The flow is a Client set message, time and channel to receive a notification, all this stuff will validate and registered in Database, and then send to Client in a proper time.
 
 For notification I am going to use **push model**.  Notifications methods are two - email and telegram messages.  
 Maybe other like whatsapp or SMS. 
@@ -27,7 +30,7 @@ Non-functional requirements answer the questions:
 - "How well does the system work?"
 - "Under what conditions should it function?"
 
-Also there is necesarry to clear database after if notification is not set to repeated.
+Also there is necessary to clear database after if notification is not set to repeated.
 
 Need to control deduplication, with timeouts.  
 
@@ -109,6 +112,7 @@ Contains datas for clients to notify
 flowchart LR
 
     subgraph Processing["Processing"]
+        WA[WebApp]
         PP[Parser]
         PV[Validator]
     end
@@ -133,7 +137,7 @@ flowchart LR
         Telegram[💬 Telegram]
     end
 
-    Data[(Data)] --> PP --> PV --> QID --> PW --> PG[(PostgreSQL)]
+    Data[(Data)] --> WA --> PP --> PV --> QID --> PW --> PG[(PostgreSQL)]
 
     SCR --> PG
     SCR --> SNR
