@@ -116,13 +116,13 @@ flowchart LR
     subgraph Processing["Processing"]
         WA[WebApp]
         PP[Parser]
-        PV[Validator]
+        PV{Validator}
     end
 
     subgraph RabbitMQ["RabbitMQ"]
-        QID[(Queue_QID)]
-        QOT[(Queue_QOT)]
-        QOM[(Queue_QOM)]
+        QID@{ shape: das, label: "Queue_QID" }
+        QOT@{ shape: das, label: "Queue_QOT" }
+        QOM@{ shape: das, label: "Queue_QOM" }
     end
 
     subgraph Writer["Writer"]
@@ -131,7 +131,7 @@ flowchart LR
 
     subgraph Notifier["Notifier"]
         SCR[Scheduler]
-        SNR[Sender]
+        SNR{Sender}
     end
 
     subgraph Clients["Clients"]
