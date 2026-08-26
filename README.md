@@ -36,12 +36,12 @@ When a particular message has been sent, need to register it like send, maybe in
 All the notification has a priority, not all of them a important. So, one of them has to be send faster and other later. Some notification can be send in email, some with a messangers like tg or whatsapp.  
 For example:
 
-| Priority | Example | Default |
-|-------------|-------------|-------------|
-| `critical` | Security alerts | **Messangers** | 
-| `high` | Mentions, direct messages | **Messangers** | 
-| `medium` | Comments, reactions  | **Email** |
-| `low` | Marketing, digest | **Email** |
+| Priority | Example | Default        |
+|-------------|-------------|----------------|
+| `critical` | Security alerts | **Messengers** | 
+| `high` | Mentions, direct messages | **Messengers** | 
+| `medium` | Comments, reactions  | **Email**      |
+| `low` | Marketing, digest | **Email**      |
 
 ## System Design
 There are some blocks of a system:  
@@ -79,10 +79,15 @@ Notifier it is two funcs:
 Consumer which get messages from RabbitMQ, from **QOT** (queue out telegram) or **QOM** (queue out mail) and send it for a correspond client
 
 ### RabbitMQ
-Contains 3 queues:  
-1. QID (queue input data)  
-2. QOT (queue out telegram)  
-3. QOM (queue out mail)  
+
+Message Queue Design
+
+| Abbreviation | Full Name | Purpose |
+|--------------|-----------|---------|
+| **QID** | Queue Input Data | Queue for incoming data |
+| **QOT** | Queue Out Telegram | Queue for outgoing Telegram messages |
+| **QOM** | Queue Out Mail | Queue for outgoing email messages |
+ 
 
 
 ### PostgreSQL
