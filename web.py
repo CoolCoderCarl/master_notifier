@@ -1,6 +1,7 @@
 import logging
 
 from flask import Flask, render_template, request
+from datetime import datetime, timedelta
 
 import processing
 
@@ -10,9 +11,21 @@ app = Flask(__name__)
 @app.route("/", methods=["GET", "POST"])
 def index():
     data = None
+    error = None
 
     if request.method == "POST":
         try:
+
+            n_time = request.form.get("n_time")
+
+            selected_time = datetime.strptime(n_time, "%Y-%m-%dT%H:%M")
+
+            min_time = datetime.now() + timedelta(minutes=1)
+
+            if selected_time < min_time:
+                error = "Wrong date or time or both."
+                return render_template("index.html", data=None, error=error)
+
             data = {
                 "client_name": request.form.get("client_name"),
                 "n_method": request.form.get("n_method"),
@@ -24,7 +37,7 @@ def index():
             # Send data to QID
             processing.send_to_qid(data)
 
-            logging.info("Message sent to QID: ", data)
+            logging.info("Message sent to QID: %s", data)
         except Exception as exp:
             print(f"RabbitMQ error: {exp}")
 

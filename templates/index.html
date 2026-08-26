@@ -84,11 +84,52 @@
     </style>
 </head>
 
+<script>
+    const timeInput = document.getElementById("n_time");
+
+    function updateMinTime() {
+        const now = new Date();
+
+        // Minimum in 1 min from current time
+        now.setMinutes(now.getMinutes() + 1);
+
+        // YYYY-MM-DDTHH:MM
+        const year = now.getFullYear();
+        const month = String(now.getMonth() + 1).padStart(2, "0");
+        const day = String(now.getDate()).padStart(2, "0");
+        const hours = String(now.getHours()).padStart(2, "0");
+        const minutes = String(now.getMinutes()).padStart(2, "0");
+
+        timeInput.min = `${year}-${month}-${day}T${hours}:${minutes}`;
+    }
+
+    updateMinTime();
+
+    // Update
+    setInterval(updateMinTime, 60000);
+</script>
+
+
+
 <body>
 
 <div class="container">
 
     <h1>Notification Queue</h1>
+
+    {% if error %}
+    <div style="
+        margin-bottom: 20px;
+        padding: 12px;
+        background: #f8d7da;
+        color: #721c24;
+        border-radius: 6px;
+    ">
+        {{ error }}
+    </div>
+    {% endif %}
+
+
 
     <form method="POST">
 
