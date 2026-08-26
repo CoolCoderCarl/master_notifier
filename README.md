@@ -62,7 +62,7 @@ For now it will some kind of table but maybe it is good idea configure it with a
 **Output:** file (or JSON)
 
 
-### Proccessing 
+### Processing 
 A Web Application which get data from user  
 Parse and validate JSON file then put it in queue named **QID** (queue input data).
 Use Flask like a web server
