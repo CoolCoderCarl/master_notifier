@@ -25,6 +25,8 @@ class QueueManager:
                     username=self.user,
                     password=self.password,
                 ),
+                heartbeat=60,
+                blocked_connection_timeout=300,
             )
         )
 
