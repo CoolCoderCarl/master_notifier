@@ -1,6 +1,7 @@
 import json
-
+import time
 import pika
+from pika.exceptions import AMQPConnectionError, AMQPChannelError
 import dynaconfig
 
 
@@ -27,6 +28,8 @@ class QueueManager:
                 ),
                 heartbeat=60,
                 blocked_connection_timeout=300,
+                connection_attempts=3,
+                retry_delay=2,
             )
         )
 
