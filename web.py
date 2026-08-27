@@ -6,6 +6,7 @@ from datetime import datetime, timedelta
 import processing
 
 app = Flask(__name__)
+queue_manager = processing.QueueManager()
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -35,7 +36,7 @@ def index():
                 "is_repeat": request.form.get("is_repeat") == "true"
             }
             # Send data to QID
-            processing.send_to_qid(data)
+            queue_manager.send("QID", data)
 
             logging.info("Message sent to QID: %s", data)
         except Exception as exp:

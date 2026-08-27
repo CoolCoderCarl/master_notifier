@@ -1,47 +1,51 @@
-import pika
-import dynaconfig
 import json
 
-RMQ_HOST = dynaconfig.settings["RMQ_HOST"]
-RMQ_USER = dynaconfig.settings["RMQ_USER"]
-RMQ_PASS = dynaconfig.settings["RMQ_PASS"]
-RMQ_QID = dynaconfig.settings["RMQ_QID"]
+import pika
+import dynaconfig
 
 
-def send_to_qid(data):
-    """
-    Send notification data to RabbitMQ QID queue.
-    :param data:
-    :return:
-    """
-    connection = pika.BlockingConnection(
-        pika.ConnectionParameters(
-            host=RMQ_HOST,
-            port=5672,
-            virtual_host="/",
-            credentials=pika.PlainCredentials(
-                username=RMQ_USER,
-                password=RMQ_PASS
+class QueueManager:
+    def __init__(self):
+        self.host = dynaconfig.settings["RMQ_HOST"]
+        self.user = dynaconfig.settings["RMQ_USER"]
+        self.password = dynaconfig.settings["RMQ_PASS"]
+
+        self.queues = {
+            "QID": dynaconfig.settings["RMQ_QID"],
+            "QOT": dynaconfig.settings["RMQ_QOT"],
+            "QOM": dynaconfig.settings["RMQ_QOM"],
+        }
+
+        self.connection = pika.BlockingConnection(
+            pika.ConnectionParameters(
+                host=self.host,
+                port=5672,
+                virtual_host="/",
+                credentials=pika.PlainCredentials(
+                    username=self.user,
+                    password=self.password,
+                ),
             )
         )
-    )
-    try:
-        channel = connection.channel()
 
-        body = json.dumps(data)
+        self.channel = self.connection.channel()
 
-        channel.basic_publish(
+    def send(self, queue_name, data):
+        queue = self.queues.get(queue_name)
+
+        if not queue:
+            raise ValueError(f"Unknown queue: {queue_name}")
+
+        self.channel.basic_publish(
             exchange="",
-            routing_key=RMQ_QID,
-            body=body,
+            routing_key=queue,
+            body=json.dumps(data),
             properties=pika.BasicProperties(
                 delivery_mode=pika.DeliveryMode.Persistent,
-                content_type="application/json"
-            )
+                content_type="application/json",
+            ),
         )
-    finally:
-        connection.close()
 
-
-if __name__ == '__main__':
-    pass
+    def close(self):
+        if self.connection and not self.connection.is_closed:
+            self.connection.close()
