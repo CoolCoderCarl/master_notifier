@@ -5,6 +5,8 @@
 - [x] Writer
 - [x] RabbitMQ
 - [x] Processing
+- [x] Redis
+- [x] Scheduler
 - [ ] Notifier
 - [ ] Clients
 
@@ -48,11 +50,13 @@ For example:
 | `low` | Marketing, digest | **Email**      |
 
 ## System Design
-There are some blocks of a system:  
+There are some components of a system:  
 - Data
 - Processing
 - RabbitMQ
 - Writer
+- Scheduler
+- Redis
 - Notifier
 - Clients
 
@@ -74,14 +78,21 @@ Use Flask like a web server
 In fact it is a consumer which get data from **QID** and put it in PG
 
 
+### Scheduler
+This app check last actual records in DB and put them into Redis then delete them to free a database
+
+
+### Redis
+Contain one or more stores to save some data from DB
+
+
 ### Notifier
-Notifier it is two funcs:  
-1. Scheduler (SCR) - check if it is time to send  
-2. Sender (SNR) - put data in queues **QOT** or **QOM**  
+Get data from Redis and put them in queues **QOT** or **QOM**  
 
 
 ### Clients
 Consumer which get messages from RabbitMQ, from **QOT** (queue out telegram) or **QOM** (queue out mail) and send it for a correspond client
+
 
 ### RabbitMQ
 
@@ -96,18 +107,34 @@ Message Queue Design
 
 
 ### PostgreSQL
-Contains datas for clients to notify
+Contains two tables for clients to notify:
+1. **Notifications**, this one contain simple record for one-time notification
+
+| Field            | Description                                 |
+|------------------|---------------------------------------------|
+| `id`             | Entity ID                                   |
+| `client_name`    | Real name or nickname                       |
+| `client_tg_nick` | Telegram nickname of a client               |
+| `n_method`       | Notification method: Telegram or Email      |
+| `n_text`         | Text of the notification message            |
+| `n_time`         | Time when the notification should be sent   |
+| `r_time`         | Time when the notification has been received |
+| `prioriy`        | Priority of a notifications                 |
+| `is_repeat`      | Whether the notification should be repeated |
+
+
+2. **Notifications_Repeated**, this one contain simple record for repeated notification
 
 | Field         | Description                                  |
 |---------------|----------------------------------------------|
 | `id`          | Entity ID                                    |
 | `client_name` | Real name or nickname                        |
+| `client_tg_nick` | Telegram nickname of a client               |
 | `n_method`    | Notification method: Telegram or Email       |
 | `n_text`      | Text of the notification message             |
 | `n_time`      | Time when the notification should be sent    |
 | `r_time`      | Time when the notification has been received |
 | `prioriy`     | Priority of a notifications                  |
-| `is_repeat`   | Whether the notification should be repeated  |
 
 
 ```mermaid
@@ -129,7 +156,16 @@ flowchart LR
     end
 
     subgraph Notifier["Notifier"]
-        NSR[Scheduler]
+        NTF[Notifier]
+    end
+
+    subgraph Scheduler["Scheduler"]
+        SCR[Scheduler]
+    end
+
+    subgraph PostgreSQL["PostgreSQL"]
+        DBN[(Notifications)]
+        DBR[(Notifications_Repeated)]
     end
 
     subgraph Clients["Clients"]
@@ -137,9 +173,11 @@ flowchart LR
         Telegram[💬 Telegram]
     end
 
-    Sources[(Sources)] --> PWA --> PVA --> QID --> WRR --> PG[(PostgreSQL)]
+    Sources[(Sources)] --> PWA --> PVA --> QID --> WRR --> PostgreSQL
 
-    NSR --> PG
+    SCR --> PostgreSQL
+    SCR --> Redis[(Redis)]
+    NTF --> Redis[(Redis)]
 
-    NSR --> QOM --> Email
-    NSR --> QOT --> Telegram
+    NTF --> QOM --> Email
+    NTF --> QOT --> Telegram
