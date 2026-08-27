@@ -138,7 +138,7 @@ Contains two tables for clients to notify:
 
 
 ```mermaid
-flowchart LR
+flowchart TB
 
     subgraph Processing["Processing"]
         PWA[WebApp]
