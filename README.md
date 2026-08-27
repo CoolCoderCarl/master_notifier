@@ -164,8 +164,10 @@ flowchart LR
     end
 
     subgraph PostgreSQL["PostgreSQL"]
+        direction TB
         DBN[(Notifications)]
         DBR[(Notifications_Repeated)]
+        DBN ~~~ DBR
     end
 
     subgraph Clients["Clients"]
