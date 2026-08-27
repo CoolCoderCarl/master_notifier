@@ -63,11 +63,11 @@ def callback(ch, method, properties, body):
         r_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         query = """
-            INSERT INTO notifications
-                (client_name, n_method, n_text, n_time, r_time, priority, is_repeat)
-            VALUES
-                (%s, %s, %s, %s, %s, %s, %s)
-            RETURNING id;
+INSERT INTO notifications
+    (client_name, n_method, n_text, n_time, r_time, priority, is_repeat)
+VALUES
+    (%s, %s, %s, %s, %s, %s, %s)
+RETURNING id;
         """
 
         postgres_cursor.execute(
