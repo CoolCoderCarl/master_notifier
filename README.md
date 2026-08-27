@@ -114,9 +114,8 @@ Contains datas for clients to notify
 flowchart LR
 
     subgraph Processing["Processing"]
-        WA[WebApp]
-        PP[Parser]
-        PV{Validator}
+        PWA[WebApp]
+        PVA[Validator]
     end
 
     subgraph RabbitMQ["RabbitMQ"]
@@ -126,12 +125,11 @@ flowchart LR
     end
 
     subgraph Writer["Writer"]
-        PW[Writer]
+        WRR[Writer]
     end
 
     subgraph Notifier["Notifier"]
-        SCR[Scheduler]
-        SNR{Sender}
+        NSR[Scheduler]
     end
 
     subgraph Clients["Clients"]
@@ -139,10 +137,9 @@ flowchart LR
         Telegram[💬 Telegram]
     end
 
-    Sources[(Sources)] --> WA --> PP --> PV --> QID --> PW --> PG[(PostgreSQL)]
+    Sources[(Sources)] --> PWA --> PVA --> QID --> WRR --> PG[(PostgreSQL)]
 
-    SCR --> PG
-    SCR --> SNR
+    NSR --> PG
 
-    SNR --> QOM --> Email
-    SNR --> QOT --> Telegram
+    NSR --> QOM --> Email
+    NSR --> QOT --> Telegram
