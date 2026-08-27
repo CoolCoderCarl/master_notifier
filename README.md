@@ -57,8 +57,8 @@ There are some blocks of a system:
 - Clients
 
 
-### Data
-It is a data you want to get with a notification and also the time configurations how and when you want to recieve it  
+### Sources
+It is a data sources from where you want to get data for a notification and also the time configurations how and when you want to receive it  
 For now it will some kind of table but maybe it is good idea configure it with a frontend web app  
 **Output:** file (or JSON)
 
@@ -139,7 +139,7 @@ flowchart LR
         Telegram[💬 Telegram]
     end
 
-    Data[(Data)] --> WA --> PP --> PV --> QID --> PW --> PG[(PostgreSQL)]
+    Sources[(Sources)] --> WA --> PP --> PV --> QID --> PW --> PG[(PostgreSQL)]
 
     SCR --> PG
     SCR --> SNR
