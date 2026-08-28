@@ -122,9 +122,9 @@ def main():
                         f"{message['id']}: {error}"
                     )
 
-            # Wait 10 minutes
-            logging.info("Waiting for 10 minutes...")
-            time.sleep(600)
+            # Wait for 1 minute
+            logging.info("Waiting for 1 minute...")
+            time.sleep(60)
 
     finally:
         pg_connection.close()
