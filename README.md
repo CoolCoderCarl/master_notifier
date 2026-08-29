@@ -8,7 +8,7 @@
 - [x] Redis
 - [x] Scheduler
 - [x] Relay
-- [ ] Notifier
+- [x] Notifier
 
 
 ## System Description 
