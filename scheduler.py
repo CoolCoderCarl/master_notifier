@@ -71,24 +71,21 @@ WHERE id = %s
     connection.commit()
 
 
-def send_to_redis(redis_client, message):
+def send_to_redis(redis_client, message, id):
+    """
+    Send to redis
+    :param redis_client:
+    :param message:
+    :param id: Message ID from DB
+    :return:
+    """
     data = json.dumps(
         dict(message),
         ensure_ascii=False,
         default=str,
     )
-
+    logging.info(f"Sending message with ID {id}")
     redis_client.rpush("notifications", data)
-
-
-# def send_to_redis(redis_client, message):
-#     data = json.dumps(
-#         dict(message),
-#         ensure_ascii=False,
-#         default=str,
-#     )
-#
-#     redis_client.rpush("notifications", data)
 
 
 def main():
@@ -103,24 +100,17 @@ def main():
 
             for message in messages:
                 try:
-                    send_to_redis(
-                        redis_client,
-                        message,
-                    )
+                    send_to_redis(redis_client, message, message["id"])
 
                     # Delete if Redis receive message
                     # delete_message(
                     #     pg_connection,
                     #     message["id"],
                     # )
-
-                    logging.info(f"Message {message['id']} "f"sent and deleted")
+                    # logging.info(f"Message {message['id']} "f"sent to Redis and deleted")
 
                 except Exception as error:
-                    logging.error(
-                        f"An error occurred "
-                        f"{message['id']}: {error}"
-                    )
+                    logging.error(f"An error occurred {message['id']}: {error}")
 
             # Wait for 1 minute
             logging.info("Waiting for 1 minute...")
