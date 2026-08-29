@@ -7,8 +7,8 @@
 - [x] Processing
 - [x] Redis
 - [x] Scheduler
+- [x] Relay
 - [ ] Notifier
-- [ ] Clients
 
 
 ## System Description 
@@ -57,8 +57,8 @@ There are some components of a system:
 - Writer
 - Scheduler
 - Redis
+- Relay
 - Notifier
-- Clients
 
 
 ### Sources
@@ -86,11 +86,11 @@ This app check last actual records in DB and put them into Redis then delete the
 Contain one or more stores to save some data from DB
 
 
-### Notifier
+### Relay
 Get data from Redis and put them in queues **QOT** or **QOM**  
 
 
-### Clients
+### Notifier
 Consumer which get messages from RabbitMQ, from **QOT** (queue out telegram) or **QOM** (queue out mail) and send it for a correspond client
 
 
@@ -155,8 +155,8 @@ flowchart TB
         WRR[Writer]
     end
 
-    subgraph Notifier["Notifier"]
-        NTF[Notifier]
+    subgraph Relay["Relay"]
+        RLY[Relay]
     end
 
     subgraph Scheduler["Scheduler"]
@@ -170,7 +170,7 @@ flowchart TB
         DBN ~~~ DBR
     end
 
-    subgraph Clients["Clients"]
+    subgraph Notifier["Notifier"]
         Email[📧 Email]
         Telegram[💬 Telegram]
     end
@@ -179,7 +179,7 @@ flowchart TB
 
     SCR --> PostgreSQL
     SCR --> Redis[(Redis)]
-    NTF --> Redis[(Redis)]
+    RLY --> Redis[(Redis)]
 
-    NTF --> QOM --> Email
-    NTF --> QOT --> Telegram
+    RLY --> QOM --> Email
+    RLY --> QOT --> Telegram
