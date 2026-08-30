@@ -1,16 +1,5 @@
 # master_notifier
 
-## PLAN
-- [x] Postgres
-- [x] Writer
-- [x] RabbitMQ
-- [x] Processing
-- [x] Redis
-- [x] Scheduler
-- [x] Relay
-- [x] Notifier
-
-
 ## System Description 
 Notification system is a system serve for notification a Clients with some messages they want to receive from somewhere
 
