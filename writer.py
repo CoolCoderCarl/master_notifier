@@ -1,10 +1,11 @@
+import json
 import logging
+from datetime import datetime
 
-import dynaconfig
 import pika
 import psycopg2
-from datetime import datetime
-import json
+
+import dynaconfig
 
 # current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
@@ -23,8 +24,7 @@ RMQ_QID = dynaconfig.settings["RMQ_QID"]
 # RABBITMQ CONNECTION
 rabbitmq_connection = pika.BlockingConnection(
     pika.ConnectionParameters(
-        host=RMQ_HOST,
-        credentials=pika.PlainCredentials(RMQ_USER, RMQ_PASS)
+        host=RMQ_HOST, credentials=pika.PlainCredentials(RMQ_USER, RMQ_PASS)
     )
 )
 
@@ -32,11 +32,7 @@ rabbitmq_channel = rabbitmq_connection.channel()
 
 # POSTGRES CONNECTION
 postgres_connection = psycopg2.connect(
-    host=DB_HOST,
-    port=5432,
-    database=DB_TABL,
-    user=DB_USER,
-    password=DB_PASS
+    host=DB_HOST, port=5432, database=DB_TABL, user=DB_USER, password=DB_PASS
 )
 
 postgres_cursor = postgres_connection.cursor()
@@ -71,8 +67,7 @@ RETURNING id;
         """
 
         postgres_cursor.execute(
-            query,
-            (client_name, n_method, n_text, n_time, r_time, priority, is_repeat)
+            query, (client_name, n_method, n_text, n_time, r_time, priority, is_repeat)
         )
 
         notification_id = postgres_cursor.fetchone()[0]
@@ -84,9 +79,7 @@ RETURNING id;
         # postgres_cursor.close()
         # postgres_connection.close()
 
-        ch.basic_ack(
-            delivery_tag=method.delivery_tag
-        )
+        ch.basic_ack(delivery_tag=method.delivery_tag)
 
     except Exception as error:
 
@@ -96,9 +89,7 @@ RETURNING id;
 
 
 rabbitmq_channel.basic_consume(
-    queue=RMQ_QID,
-    on_message_callback=callback,
-    auto_ack=False
+    queue=RMQ_QID, on_message_callback=callback, auto_ack=False
 )
 
 logging.info("Waiting for messages in QID...")

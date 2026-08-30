@@ -1,9 +1,10 @@
-import json
 import asyncio
+import json
 import logging
 
 import pika
 from telegram import Bot
+
 import dynaconfig
 
 RMQ_HOST = dynaconfig.settings["RMQ_HOST"]
@@ -14,7 +15,9 @@ RMQ_QOT = dynaconfig.settings["RMQ_QOT"]
 TELEGRAM_BOT_TOKEN = dynaconfig.settings["TELEGRAM_BOT_TOKEN"]
 TELEGRAM_BOT_CHAT_ID = dynaconfig.settings["TELEGRAM_BOT_CHAT_ID"]
 
-logging.basicConfig(level=logging.INFO,format="%(asctime)s [%(levelname)s] %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s"
+)
 logging.getLogger("httpx").setLevel(logging.WARNING)
 logging.getLogger("httpcore").setLevel(logging.WARNING)
 
@@ -70,9 +73,7 @@ def main():
                     text,
                 )
             )
-            ch.basic_ack(
-                delivery_tag=method.delivery_tag
-            )
+            ch.basic_ack(delivery_tag=method.delivery_tag)
 
             logging.info(f"Message with ID: {message_id} sent to Telegram")
 

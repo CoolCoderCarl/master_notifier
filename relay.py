@@ -1,7 +1,8 @@
+import json
 import logging
 
 import redis
-import json
+
 import dynaconfig
 from processing import QueueManager
 
@@ -23,7 +24,7 @@ class NotificationWorker:
             password=self.REDIS_PASSWORD,
             decode_responses=True,
             socket_connect_timeout=5,
-            socket_timeout=10
+            socket_timeout=10,
         )
         self.queue_manager = QueueManager()
 
@@ -49,19 +50,14 @@ class NotificationWorker:
 
                 if not queue_name:
                     logging.error(
-                        f"Unknown n_method={n_method}, "
-                        f"notification={notification}"
+                        f"Unknown n_method={n_method}, " f"notification={notification}"
                     )
                     continue
 
-                self.queue_manager.send(
-                    queue_name,
-                    notification
-                )
+                self.queue_manager.send(queue_name, notification)
 
                 logging.info(
-                    f"Notification {notification.get('id')} "
-                    f"sent to {queue_name}"
+                    f"Notification {notification.get('id')} " f"sent to {queue_name}"
                 )
 
         finally:

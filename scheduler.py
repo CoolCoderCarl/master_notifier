@@ -3,8 +3,9 @@ import logging
 import time
 
 import psycopg2
-from psycopg2.extras import RealDictCursor
 import redis
+from psycopg2.extras import RealDictCursor
+
 import dynaconfig
 
 # PostgreSQL
@@ -41,8 +42,7 @@ def get_redis_connection():
 
 def get_ready_messages(connection):
     with connection.cursor(cursor_factory=RealDictCursor) as cursor:
-        cursor.execute(
-            """
+        cursor.execute("""
 SELECT
     id,
     client_name,
@@ -53,8 +53,7 @@ SELECT
 FROM notifications
 WHERE n_time >= NOW()
 ORDER BY priority DESC, n_time ASC;
-"""
-        )
+""")
         return cursor.fetchall()
 
 

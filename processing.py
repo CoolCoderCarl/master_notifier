@@ -1,8 +1,12 @@
 import json
 import time
+
 import pika
-from pika.exceptions import AMQPConnectionError, AMQPChannelError
+
 import dynaconfig
+
+
+# from pika.exceptions import AMQPChannelError, AMQPConnectionError
 
 
 class QueueManager:

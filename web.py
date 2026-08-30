@@ -1,7 +1,7 @@
 import logging
+from datetime import datetime, timedelta
 
 from flask import Flask, render_template, request
-from datetime import datetime, timedelta
 
 import processing
 
@@ -33,7 +33,7 @@ def index():
                 "n_text": request.form.get("n_text"),
                 "n_time": request.form.get("n_time"),
                 "priority": int(request.form.get("priority", 1)),
-                "is_repeat": request.form.get("is_repeat") == "true"
+                "is_repeat": request.form.get("is_repeat") == "true",
             }
             # Send data to QID
             queue_manager.send("QID", data)
