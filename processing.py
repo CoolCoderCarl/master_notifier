@@ -5,7 +5,6 @@ import pika
 
 import dynaconfig
 
-
 # from pika.exceptions import AMQPChannelError, AMQPConnectionError
 
 
