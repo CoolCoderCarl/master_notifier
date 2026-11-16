@@ -1,5 +1,10 @@
 # master_notifier
 
+TODO
+
+- [ ] Docker
+- [ ] Docker compose
+
 ## System Description 
 Notification system is a system serve for notification a Clients with some messages they want to receive from somewhere
 
