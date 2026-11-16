@@ -4,6 +4,7 @@ TODO
 
 - [ ] Docker
 - [ ] Docker compose
+- [ ] CI
 
 ## System Description 
 Notification system is a system serve for notification a Clients with some messages they want to receive from somewhere
